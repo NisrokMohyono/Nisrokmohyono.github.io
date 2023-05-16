@@ -24,7 +24,340 @@
    <script async custom-element="amp-date-display" src="https://cdn.ampproject.org/v0/amp-date-display-0.1.js"></script>
    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  
+  <style amp-custom>
+    body {
+      margin: 0;
+      font-family: 'Georgia', Serif;
+      background: white;
+    }
+
+    .brand-logo {
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    }
+
+    .ad-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-container p {
+      line-height: 24px;
+    }
+
+    /* In the shadow-doc mode, the parent shell already has header and nav. */
+    .amp-shadow header {
+      display: none;
+    }
+
+    .lightbox {
+      background: #222;
+    }
+
+    .lightbox-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox-content p {
+      color: #fff;
+      padding: 15px;
+    }
+
+    .lightbox amp-img {
+      width: 100%;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figcaption {
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+      border-bottom: 1px solid #e2e2e2;
+      color: #6d6d6d;
+      margin-left: 20px;
+      margin-right: 20px;
+      font-size: .9em;
+      padding: 15px;
+    }
+
+    figcaption::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    figcaption.image::before {
+      background-image: url('data:image/svg+xml,<svg fill="#a9a9a9" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3.2"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    }
+
+    figcaption.video::before {
+      background-image: url('data:image/svg+xml,<svg fill="#a9a9a9" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>');
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+
+      background: #f4f4f4;
+      padding: 0 15px;
+
+      font-size: .8em;
+
+      border: solid #dcdcdc;
+      border-width: 1px 0;
+    }
+
+    .header-time, .header-author {
+      color: #a8a3ae;
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .header-author {
+      border-right: 1px solid #d5d5d5;
+      padding-right: 10px;
+      margin-right: 10px;
+      display: inline-block;
+    }
+
+    .header-author b {
+      color: #2294dd;
+      font-weight: normal;
+    }
+
+    .author p {
+      margin: 5px;
+    }
+
+    .byline {
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+      display: inline-block;
+    }
+
+    .byline p {
+      line-height: normal;
+    }
+
+    .byline .brand {
+      color: #6f757a;
+    }
+
+    .mailto {
+      text-decoration: none;
+    }
+    
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #author-avatar {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    h1 {
+      margin: 5px 0;
+      font-weight: normal;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 150px;
+      background: #f4f4f4;
+    }
+
+    hr {
+      margin: 0;
+    }
+
+    amp-app-banner {
+      padding: 10px;
+    }
+
+    amp-app-banner .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    amp-img {
+      background-color: #f4f4f4;
+    }
+
+    amp-app-banner amp-img {
+      background-color: transparent;
+      margin-right: 15px
+    }
+
+    amp-app-banner .description {
+      margin-right: 20px;
+    }
+
+    amp-app-banner h5 {
+      margin: 0;
+    }
+
+    amp-app-banner p {
+      font-size: 10px;
+      margin: 3px 0;
+    }
+
+    amp-app-banner .actions button {
+      padding: 5px;
+      width: 70px;
+      border: 1px solid #aaa;
+      font-size: 8px;
+      background: #fff;
+    }
+
+    amp-app-banner .actions {
+      text-align: right;
+      font-size: 14px;
+    }
+
+    amp-sidebar {
+      width: 340px;
+      background: white;
+    }
+
+    nav ul {
+      padding: 0px;
+      list-style: none;
+    }
+
+    nav li {
+      list-style: none;
+      padding: 0px;
+      padding-left: 15px;
+    }
+
+    nav li a {
+      text-decoration: none;
+      color: #666666;
+      display: block;
+      padding: 10px;
+    }
+
+    nav li.active {
+      background: #f7f7f7;
+    }
+
+    nav li.active a {
+      color: black;
+      border-right: 3px solid black;
+    }
+
+    .article-body p {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    header {
+      padding: 15px;
+    }
+
+    button.menu {
+      background: transparent;
+      border: none;
+      padding: 10px;
+      padding-right: 20px;
+    }
+
+    .jump-to {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .jump-to ul a, .jump-to ol a {
+        text-decoration: none;
+        color: #2294dd;
+    }
+
+    header#top-bar {
+      background: white;
+      border-bottom: 1px solid #e2e2e2;
+    }
+
+    header#article-desc {
+      background: rgb(250, 250, 250);
+      padding: 20px;
+    }
+
+    header#article-desc h1 {
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+
+    .slot-fallback {
+       padding: 10px;
+       background: #1b1b1b;
+       color: white;
+     }
+
+     #lightbox-close-btn {
+       font-family: Helvetica, sans-serif;
+       color: white;
+       position: absolute;
+       top: 0px;
+       right: 0px;
+       padding: 20px;
+     }
+     
+    .button {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #f63;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 2rem;position: Helvetica;
+      }
+
+     .button:hover {
+  background-color: #f7a;
+}
+
+ :root {
+      --color-primary: #005AF0;
+      --color-text-light: #fff;
+    }
+    /* a custom sharing icon */
+    amp-social-share.custom-style {
+      background-color: #008080;
+      background-image: url('https://raw.githubusercontent.com/google/material-design-icons/master/social/1x_web/ic_share_white_48dp.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    /* blue icons with rounded corners  */
+    amp-social-share.rounded {
+      border-radius: 50%;
+      background-size: 60%;
+      color: var(--color-text-light);
+      background-color: var(--color-primary);
+    }
+  </style>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
